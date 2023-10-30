@@ -1,0 +1,396 @@
+/* App.css */
+/* Global */
+body {
+  background-image: url("./image/lottery-1.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: top;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  min-height: 100%;
+  width: auto;
+  color: #fff;
+}
+
+.wrap {
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: 310px;
+}
+
+a {
+  text-decoration: none;
+  color: #1a1a1a;
+}
+
+/* Title */
+h1 {
+  text-align: center;
+  font: 300 2.25em "Lato";
+  text-transform: uppercase;
+}
+
+h1 strong {
+  font-weight: 400;
+  color: #ea4c4c;
+}
+
+h2 {
+  margin-bottom: 80px;
+  text-align: center;
+  font: 300 0.7em "Lato";
+  text-transform: uppercase;
+}
+
+h2 strong {
+  font-weight: 400;
+}
+
+h3 {
+  text-align: center;
+}
+
+.Lottery {
+  background: linear-gradient(
+    135deg,
+    rgb(48 67 188 / var(--glass-opacity, 60%)) 10%,
+    rgb(0 0 0 / 20%) 100%
+  );;
+}
+
+.Lottery-container {
+  justify-content: center;
+  margin-bottom: 2em;
+}
+.LotteryBallsContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2em;
+}
+.Lottery button {
+  background: #2c2c38;
+  color: #fff;
+  border-radius: 10px;
+  padding: 0.5em 1em;
+  margin: 0.5em;
+  border: 0;
+  outline: none;
+  box-shadow: inset -1px 2px 8px 0 #d9d9e5, inset 1px -1px 8px 0 #2c2c38;
+  cursor: pointer; /* Add a cursor pointer to buttons */
+}
+
+.Lottery button:hover {
+  background: #5957e0;
+  color: #fff;
+}
+
+.Lottery button:active {
+  box-shadow: inset -1px 2px 6px 0 #060461, inset 1px -1px 6px 0 #6866ee;
+}
+
+.LotteryBall {
+  background: radial-gradient(circle at 65% 15%, white 1px, aqua 3%, darkblue 60%, aqua 100%); 
+  border-radius: 100%;
+  color: #fff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 3em;
+  height: 3em;
+  margin-right: 0.5em;
+  font-weight: bold;
+  font-size: 1.5rem;
+  box-shadow: -1px 2px 6px 0 #5c5a5a;
+}
+.App-logo {
+  display: flex;
+  justify-content: center;
+  width: auto;
+  height: 200px;
+  pointer-events: none;
+}
+
+/* Add styles for the tables */
+table {
+  
+  width: 100%;
+  border-collapse: inherit;
+  margin-top: 1em 0;
+}
+
+th, td {
+  background: linear-gradient(
+    135deg,
+    rgb(48 67 188 / var(--glass-opacity, 60%)) 10%,
+    rgba(6, 8, 151, 0.2) 100%
+  );;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 0.5em;
+  text-align: left;
+}
+
+th {
+  background-color: transparent;
+  font-weight: bold;
+}
+
+.tbackground {
+  padding: 0.5em;
+}
+/* Add styles for messages */
+.message {
+  color: red;
+  margin: 0.5em 0;
+  font-size: 1.2rem;
+}
+
+/* Add a background color to the header */
+.header {
+  background-color: #282c34;
+  color: white;
+  padding: 1em;
+  text-align: center;
+}
+
+/* Style links */
+a {
+  color: #61dafb;
+  text-decoration: none;
+  padding: 0.5em 1em;
+  margin: 0.5em;
+}
+
+a:hover {
+  color: #61dafb;
+  text-decoration: underline;
+}
+
+.form-container {
+  margin: 1em;
+  padding: 1em;
+  text-align: center;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  background-color: transparent;
+}
+
+/* Style for input fields */
+.form-input {
+  width: auto;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+.BetInput {
+  margin: 0.5em;
+  padding: 0.5em;
+  width: 30%;
+}
+/* Style for buttons */
+.form-button {
+  background: #2c2c38;
+  color: #fff;
+  font-size: smaller;
+  border-radius: 10px;
+  padding: 0.5em 1em;
+  margin: 0.5em 1em;
+  border: 1px;
+  outline: none;
+  box-shadow: inset -1px 2px 8px 0 #d9d9e5, inset 1px -1px 8px 0 #2c2c38;
+  cursor: pointer; 
+}
+
+.form-button:hover {
+  background-color: #5957e0;
+}
+
+.form-button:active {
+  box-shadow: inset -1px 2px 6px 0 #060461, inset 1px -1px 6px 0 #6866ee;
+}
+
+.details-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1em;
+  padding: 1em;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  background-color: transparent;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / var(--glass-border-opacity, 10%)) inset,
+  0 0 0 2px rgb(128 128 128 / 15%);
+}
+.result-container {
+  display: -webkit-box;
+  align-items: center;
+  margin: 1em;
+  padding: 1em;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  background-color: transparent;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / var(--glass-border-opacity, 10%)) inset,
+  0 0 0 2px rgb(128 128 128 / 15%);
+}
+.details-result {
+  width: auto;
+  font-size: 1.2rem;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 0.5em;
+}
+/* Styling for Last Draw Result */
+.last-draw-result {
+  background-color: #3633f0;
+  color: #fff;
+  font-size: 2rem;
+  border-radius: 50%;
+  width: 4em;
+  height: 4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5em;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Styling for Details (Last draw timestamp, Next draw timestamp, etc.) */
+.details {
+  width: 90%;
+  font-size: 1.2rem;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 0.5em;
+}
+.about {
+  width: 90%;
+  font-size: 1.2rem;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 0.5em;
+}
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap; /* Allow items to wrap to the next row if needed */
+  margin-bottom: -35px;
+  width: auto;
+  padding: 20px;
+  
+  
+  background-color: #050505;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / var(--glass-border-opacity, 10%)) inset,
+  0 0 0 2px rgb(128 128 128 / 15%);
+}
+.social-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.footer-socials {
+  width: 55px;
+  height: 55px;
+  margin-right: 15px;
+}
+.footer-bottom {
+  text-align: center;
+  color: #fff;
+}
+.footer-text {
+  text-align: center;
+  margin-top: 10px; /* Add some spacing between social icons and text */
+}
+
+.footer-text p {
+  margin: 5px 0; /* Adjust the margin as needed for spacing between text lines */
+}
+
+@media screen and (max-width: 420px) {
+  
+  .App-logo {
+    height: 195px;
+  }
+  
+  h1 {
+    font-size: 1.5em; /* Adjust font size for mobile */
+  }
+  
+  h2 {
+    font-size: 0.6em;
+  }
+    h3 {
+    font-size: 1em;
+  }
+  .Lottery button {
+    font-size: 0.8em;
+  }
+  
+  .Lottery-container {
+    margin-bottom: 1em;
+  }
+  
+  .LotteryBallsContainer {
+    margin-bottom: 1em;
+  }
+.LotteryBall {
+    font-size: 0.75em;
+}
+  .form-container {
+    margin: 0.5em;
+    padding: 0.5em;
+    font-size: 0.75em;
+  }
+  .form-button {
+    font-size: 0.8em; 
+  }
+  .BetInput {
+    width: 80%;
+  }
+  .tbackground {
+    margin-left: 0;
+    padding: 0;
+    font-size: 0.7rem;
+}
+  .details-container, .result-container {
+    margin: 0.5em;
+    padding: 0.5em;
+}
+  .details-result {
+    font-size: 0.75rem;
+  }
+  
+  .last-draw-result {
+
+    font-size: 1rem;
+  }
+  
+  .details {
+    width: auto;
+    font-size: 0.8rem;
+  }
+  
+  .footer-container {
+    padding: 10px;
+  }
+  
+  .footer-socials {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .footer-text p {
+    font-size: 0.7rem;
+    margin: 2px 0;
+  }
+}
+
+

@@ -1,0 +1,30 @@
+/* Add loading screen styles */
+  
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Make sure it's on top of other content */
+    color: #fff; /* Text color */
+    font-size: 1.5rem;
+  }
+  
+  .spinning-logo {
+    animation: spin 2s linear infinite; /* Apply the spin animation to the logo image */
+    width: 225px; /* Adjust the size of your logo */
+    height: 225px;
+  }
+
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
