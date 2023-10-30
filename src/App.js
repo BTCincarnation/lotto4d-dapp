@@ -483,7 +483,7 @@ class App extends Component {
                 className="BetInput"
                 placeholder="Amount (L4D)"
                 type="number"
-                step="1"
+                step="0.1"
                 min={this.state.minimumBet}
                 max={this.state.maximumBet}
                 value={bet.amount}
