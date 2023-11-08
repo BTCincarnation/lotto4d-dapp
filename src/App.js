@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import logo from "./image/logo.png";
 import telegram from "./image/telegram.svg";
 import github from "./image/github.svg";
+import coinMarketCap from "./image/coinmarketcap.svg";
 import "./App.css";
 import LoadingScreen from './LoadingScreen';
 import web3 from "./web3";
@@ -47,7 +48,6 @@ class App extends Component {
 
         // Detect the current network 137 polygon mainnet
       const chainId = 137;
-      console.log('current chain' + chainId);
       if (window.ethereum.networkVersion !== chainId) {
         try {
           await window.ethereum.request({
@@ -64,7 +64,7 @@ class App extends Component {
                   chainName: 'Polygon',
                   chainId: web3.utils.toHex(chainId),
                   nativeCurrency: { name: 'MATIC', decimals: 18, symbol: 'MATIC' },
-                  rpcUrls: ['https://polygon-rpc.com/']
+                  rpcUrls: ['https://polygon-rpc.com']
                 }
               ]
             });
@@ -91,6 +91,10 @@ class App extends Component {
         // Fetch and set the user's L4D token balance
         const playerL4DBalance = await lotto4DStats.methods.balanceOf(account).call();
         this.setState({ playerL4DBalance: web3.utils.fromWei(playerL4DBalance.toString(), "gwei") });
+                if (window.ethereum.networkVersion !== 137) {
+                    this.setState({ message: "Please Switch To Polygon Network at Your Wallet Or your Browser Dapp!" });
+                }
+                  
       } catch (error) {
         console.error('User denied account access:', error);
 
@@ -124,7 +128,7 @@ class App extends Component {
     const tokenAddress = "0x07E78d26FCfF2E3bcAb75AB2cCaA7AFD5E84cEe2";
     const tokenSymbol = "L4D";
     const tokenDecimals = 9;
-    const tokenImageUrl = "https://raw.githubusercontent.com/BTCincarnation/lotto4d-dapp/main/src/image/256logo.png";
+    const tokenImageUrl = "https://raw.githubusercontent.com/BTCincarnation/lotto4d-dapp/main/src/image/logo256.png";
 
     if (window.ethereum) {
       window.ethereum
@@ -159,19 +163,21 @@ class App extends Component {
   async componentDidMount() {
     this.loadingTimer = setTimeout(() => {
       this.setState({ loading: false });
-    }, 7000);
+    }, 10000);
 
     // Fetch contract data such as lastDrawTimestamp, lastDrawResult, and configuration settings
     const lastDrawTimestamp = await lotto4DStats.methods.getLastDrawTime().call();
     const lastDrawResult = await lotto4DStats.methods.getLastDrawResult().call();
     const poolBalance = await lotto4DStats.methods.getContractBalance().call();
-    const minimumBet = web3.utils.fromWei(await lotto4DStats.methods.minimumBet().call(), "gwei");
-    const maximumBet = web3.utils.fromWei(await lotto4DStats.methods.maximumBet().call(), "gwei");
+    // const minimumBet = web3.utils.fromWei(await lotto4DStats.methods.minimumBet().call(), "gwei");
+    // const maximumBet = web3.utils.fromWei(await lotto4DStats.methods.maximumBet().call(), "gwei");
     // const drawTime = await lotto4DStats.methods.drawTime().call();
     
-    this.setState({ lastDrawTimestamp, lastDrawResult, minimumBet, maximumBet, poolBalance: web3.utils.fromWei(poolBalance.toString(), "gwei") });
-
-    const timeUntilNextDraw = this.calculateTimeUntilNextDraw();
+    this.setState({ lastDrawTimestamp, lastDrawResult, poolBalance: web3.utils.fromWei(poolBalance.toString(), "gwei") });
+    const lastDrawTimestampNumber = Number(lastDrawTimestamp); // Convert to a number
+    const drawTimeNumber = Number(this.state.drawTime);
+    const timeUntilNextDraw = lastDrawTimestampNumber + drawTimeNumber;
+    console.log(`Next draw date ${timeUntilNextDraw} time`);
     this.setState({ timeUntilNextDraw });
 
     const drawResultHistorys = await lotto4DStats.methods.getAllDrawResults().call();  
@@ -300,13 +306,17 @@ class App extends Component {
             from: accounts[0],
             
         });
+                const gasPrice = await web3.eth.getGasPrice();
+        const fee = gasPrice * estimatedGas;
+        this.setState({ messageForm: "Network fee: " + web3.utils.fromWei(fee.toString(), "ether") + " MATIC. Please wait for transaction..."});
         await this.state.lotto4DContract.methods.placeBatchBetsWithToken(guesses, amountsInWei, digits).send({
           from: accounts[0],
-          gas: estimatedGas,
-          
+          gasPrice: gasPrice,
+          gas: estimatedGas,          
       });
 
-       this.setState({ messageForm: "Bets submited successfully." });
+       this.setState({ messageForm: "Bets Submited Successfully!" });
+        window.alert('Bets Submited Successfully!');
       } catch (error) {
         console.error(`Failed to Draw` + error);
   if (error.message.includes("Draw time has passed")) {
@@ -328,13 +338,17 @@ class App extends Component {
         const estimatedGas = await this.state.lotto4DContract.methods.draw().estimateGas({
             from: accounts[0],
         });
-        this.setState({ message: "Estimated gas: " + estimatedGas + ". Waiting for transaction..." });
+        const gasPrice = await web3.eth.getGasPrice();
+        const fee = gasPrice * estimatedGas;
+        this.setState({ message: "Network Fee: " + web3.utils.fromWei(fee.toString(), "ether") + " MATIC. Please wait for transaction..." });
 
         await this.state.lotto4DContract.methods.draw().send({
             from: accounts[0],
-            gas: web3.utils.toHex(estimatedGas),
+            gasPrice: gasPrice,
+            gas: estimatedGas,
         });
-        this.setState({ message: "Draw completed successfully" });
+        this.setState({ message: "Draw Successfully!" });
+        window.alert('Draw Successfully!');
     } catch (error) {
 
     if (error.message.includes("Draw time has not passed yet")) {
@@ -447,7 +461,7 @@ class App extends Component {
                 <button variant="outlined" color="primary" className="form-button" onClick={this.addL4DTokenToWallet}>
                   Add L4D to Wallet
                 </button>
-                <a href="https://www.pinksale.finance/launchpad/0x07E78d26FCfF2E3bcAb75AB2cCaA7AFD5E84cEe2?chain=Matic" target="_blank" rel="noreferrer" variant="outlined" color="primary" className="form-button">Buy L4D</a>
+                <a href="https://app.uniswap.org/swap?inputCurrency=0xc2132D05D31c914a87C6611C10748AEb04B58e8F&outputCurrency=0x07E78d26FCfF2E3bcAb75AB2cCaA7AFD5E84cEe2" target="_blank" rel="noreferrer" variant="outlined" color="primary" className="form-button">Buy L4D</a>
 
                   <button variant="outlined" color="primary" className="form-button" onClick={this.draw}>
                     Draw
@@ -557,7 +571,7 @@ class App extends Component {
             <td>{addressWin.addressWin ? `${addressWin.addressWin.slice(0, 10)}xxxxxxxxxx` : 'N/A'}</td>
             <td>{addressWin.drawNum ? addressWin.drawNum.toString().padStart(4, '0') : 'N/A'}</td>
             <td>{addressWin.digit ? addressWin.digit.toString() : 'N/A'}</td>
-            <td>{addressWin.betAmount ? addressWin.betAmount.toString() : 'N/A'}</td>
+            <td>{addressWin.betAmount ? web3.utils.fromWei(addressWin.betAmount.toString(), 'gwei') : 'N/A'}</td>
             <td>{addressWin.winAmount ? web3.utils.fromWei(addressWin.winAmount.toString(), 'gwei') : 'N/A'}</td>
           </tr>
         ))}
@@ -655,22 +669,11 @@ class App extends Component {
                   <td> 10.000.000 L4D</td>
                   </tr>
                 <tr>
-                  <td>ICO Token:</td>
-                  <td> 9,000,000 L4D (90%)</td>
-                  </tr>
-                <tr>
                   <td>Initial Lotto 4D Pool Balance:</td>
                   <td> 1,000,000 L4D (10%)</td>
                 </tr>
                 </tbody>
                 </table>
-
-                <p>ICO For Early Investor Price: 1 MATIC = 5 L4D</p>
-                <p>ICO Sold 100% For Liquility Pool, Unsold L4D Token Accumulate To Lotto 4D Pool Balance</p>
-                <p>ICO Start At 02 Nov 2023 - 09 Nov 2023</p>
-                <p>Buy ICO At Pinksale.finance: 
-                <a href="https://www.pinksale.finance/launchpad/0x07E78d26FCfF2E3bcAb75AB2cCaA7AFD5E84cEe2?chain=Matic" target="_blank" rel="noreferrer" className="form-button">Buy</a>
-                </p>
 
                 <hr />
 
@@ -685,6 +688,7 @@ class App extends Component {
             <div className="social-icons">
                 <a href="https://t.me/lotto4digit" target="_blank" rel="noreferrer"><img src={telegram} alt="telegram" className="footer-socials" /></a> 
                 <a href="https://github.com/BTCincarnation/Lotto4d-SmartContract" target="_blank" rel="noreferrer"><img src={github} alt="github" className="footer-socials" /></a>
+                <a href="https://coinmarketcap.com/dexscan/polygon/0xbca5ef1caf845c4cb7da94ccb565f3d220647b3a/" target="_blank" rel="noreferrer"><img src={coinMarketCap} alt="coinmarketcap" className="footer-socials" /></a>                   
             </div>
           
             <div className="footer-text">
@@ -703,4 +707,3 @@ class App extends Component {
 }
 
 export default App;
-
